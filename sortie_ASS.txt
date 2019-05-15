@@ -1,0 +1,868 @@
+Listing d'assemblage ********************************
+1	// Inspiri du code fourni par M. Parodi dans le fichier tst_itoa_cisc.src
+2	sp          equ r15
+3	wr          equ r14
+4	bp          equ r13
+5	
+6	SP          equ r15
+7	WR          equ r14
+8	BP          equ r13
+9	
+10	EXIT_EXC   EQU   64    // n0 d'exception de EXIT
+11	READ_EXC   EQU   65    // n0 d'exception de READ  (lit 1 ligne)
+12	WRITE_EXC  EQU   66    // n0 d'exception de WRITE (affiche texte)
+13	
+14	NUL         equ  0     // caracthre NUL qui doit terminer une channe de caracthres
+15	NULL        equ  0     // pointeur nul
+16	NIL         equ  0     // fin de liste channie
+17	
+18	STACK_ADRS  equ 0x1000 // adresse de base de pile
+19	LOAD_ADRS   equ 0x1010 // adresse de chargement du programme
+20	
+21	            org LOAD_ADRS
+22	            start main_
+23	
+24	// initialise pointeur de pile sp et pointeur de base d'environnement bp
+25	
+26	// Difinition des strings
+27	
+28	main_   ldw sp, #STACK_ADRS // pile sera au dessus de STACK_ADRS
+	4112 (0x1010)	6f80
+	4114 (0x1012)	1000
+29	        ldw bp, #NIL        // bp initial (fin de liste channie d'environnements)
+	4116 (0x1014)	6d80
+	4118 (0x1016)	0000
+30	
+31	// { // ouverture du bloc englobant de main
+32	// LNK crie environnement du main pour permettre des variables locales 
+33	// mais sans encore les riserver     
+34	        stw bp, -(sp)
+	4120 (0x1018)	6d4f
+35	        ldw bp, sp
+	4122 (0x101a)	6d9f
+36	adi sp, sp, #-2   // riserve place pour une variable de taille int
+	4124 (0x101c)	4eff
+	4126 (0x101e)	fffe
+37	LDW R1, #0
+	4128 (0x1020)	6180
+	4130 (0x1022)	0000
+38	STW R1 , (BP)-2
+	4132 (0x1024)	616d
+	4134 (0x1026)	fffe
+39	        adi sp, sp, #-2    // reserve la place pour les paramhtres d'une fonction
+	4136 (0x1028)	4eff
+	4138 (0x102a)	fffe
+40	                          // de taille totale 2 octets
+41	        adi sp, sp, #-4    // reserve la place pour les paramhtres d'une fonction
+	4140 (0x102c)	4eff
+	4142 (0x102e)	fffc
+42	                          // de taille totale 4 octets
+43	LDW R0, #3
+	4144 (0x1030)	6080
+	4146 (0x1032)	0003
+44	STW R0, (SP)0
+	4148 (0x1034)	606f
+	4150 (0x1036)	0000
+45	LDW R0, #3
+	4152 (0x1038)	6080
+	4154 (0x103a)	0003
+46	STW R0, (SP)2
+	4156 (0x103c)	606f
+	4158 (0x103e)	0002
+47	        jsr @puissance_1         // appelle fonction puissance_1
+	4160 (0x1040)	0a50
+	4162 (0x1042)	108c
+48	
+49	        adi sp, sp, #4      // nettoie la pile des paramhtres
+	4164 (0x1044)	4eff
+	4166 (0x1046)	0004
+50	                            // de taille totale 4 octets
+51	LDW R0, (R0)
+	4168 (0x1048)	60a0
+52	STW R0, (SP)0
+	4170 (0x104a)	606f
+	4172 (0x104c)	0000
+53	        jsr @printi_         // appelle fonction printi_
+	4174 (0x104e)	0a50
+	4176 (0x1050)	1222
+54	
+55	        adi sp, sp, #2      // nettoie la pile des paramhtres
+	4178 (0x1052)	4eff
+	4180 (0x1054)	0002
+56	                            // de taille totale 2 octets
+57	        adi sp, sp, #-2    // reserve la place pour les paramhtres d'une fonction
+	4182 (0x1056)	4eff
+	4184 (0x1058)	fffe
+58	                          // de taille totale 2 octets
+59	LDW R0, #5
+	4186 (0x105a)	6080
+	4188 (0x105c)	0005
+60	STW R0, (SP)0
+	4190 (0x105e)	606f
+	4192 (0x1060)	0000
+61	        jsr @factorielle_2         // appelle fonction factorielle_2
+	4194 (0x1062)	0a50
+	4196 (0x1064)	113a
+62	
+63	        adi sp, sp, #2      // nettoie la pile des paramhtres
+	4198 (0x1066)	4eff
+	4200 (0x1068)	0002
+64	                            // de taille totale 2 octets
+65	        adi sp, sp, #-2    // reserve la place pour les paramhtres d'une fonction
+	4202 (0x106a)	4eff
+	4204 (0x106c)	fffe
+66	                          // de taille totale 2 octets
+67	adi BP, R1, #-2   // stoque l'adresse de la variable dans R1
+	4206 (0x106e)	4ed1
+	4208 (0x1070)	fffe
+68	LDW R0, (R1)
+	4210 (0x1072)	60a1
+69	STW R0, (SP)0
+	4212 (0x1074)	606f
+	4214 (0x1076)	0000
+70	        jsr @printi_         // appelle fonction printi_
+	4216 (0x1078)	0a50
+	4218 (0x107a)	1222
+71	
+72	        adi sp, sp, #2      // nettoie la pile des paramhtres
+	4220 (0x107c)	4eff
+	4222 (0x107e)	0002
+73	                            // de taille totale 2 octets
+74	
+75	// fermeture du bloc englobant de main
+76	        ldw sp, bp        // abandonne variables locales de main
+	4224 (0x1080)	6f9d
+77	        ldw bp, (sp)+     // dipile ancien bp dans bp
+	4226 (0x1082)	6dbf
+78	        trp #EXIT_EXC     // lance trappe EXIT
+	4228 (0x1084)	0b00
+	4230 (0x1086)	0040
+79	        jea @main_        // revient au dibut du main 
+	4232 (0x1088)	0950
+	4234 (0x108a)	1010
+80	                          // si on relance la simulation aprhs EXIT
+81	
+82	//===================================== BLOCK DE FONCTION ===================================
+83	
+84	 
+85	 puissance_1
+86	// LINK crie environnement du main pour permettre des variables locales 
+87	// mais sans encore les riserver     
+88	        stw bp, -(sp)
+	4236 (0x108c)	6d4f
+89	        ldw bp, sp
+	4238 (0x108e)	6d9f
+90	
+91	adi sp, sp, #-2   // riserve place pour une variable de taille int
+	4240 (0x1090)	4eff
+	4242 (0x1092)	fffe
+92	LDW R1, #0
+	4244 (0x1094)	6180
+	4246 (0x1096)	0000
+93	STW R1 , (BP)-2
+	4248 (0x1098)	616d
+	4250 (0x109a)	fffe
+94	adi sp, sp, #-2   // riserve place pour une variable de taille int
+	4252 (0x109c)	4eff
+	4254 (0x109e)	fffe
+95	LDW R1, #0
+	4256 (0x10a0)	6180
+	4258 (0x10a2)	0000
+96	STW R1 , (BP)-4
+	4260 (0x10a4)	616d
+	4262 (0x10a6)	fffc
+97	adi BP, R2, #6   // stoque l'adresse de la variable dans R2
+	4264 (0x10a8)	4ed2
+	4266 (0x10aa)	0006
+98	LDW R1, (R2)
+	4268 (0x10ac)	61a2
+99	LDW R2, #0
+	4270 (0x10ae)	6280
+	4272 (0x10b0)	0000
+100	CMP R1, R2
+	4274 (0x10b2)	4f12
+101	BEQ 6
+	4276 (0x10b4)	1206
+102	LDW R1, #0
+	4278 (0x10b6)	6180
+	4280 (0x10b8)	0000
+103	BMP 2
+	4282 (0x10ba)	1102
+104	LDW R1, #1
+	4284 (0x10bc)	6180
+	4286 (0x10be)	0001
+105	LDW R2, #1
+	4288 (0x10c0)	6280
+	4290 (0x10c2)	0001
+106	CMP R1, R2
+	4292 (0x10c4)	4f12
+107	BEQ IF_1-$-2
+	4294 (0x10c6)	1202
+108	BMP ELSE_1-$-2
+	4296 (0x10c8)	1102
+109	IF_1               
+110	  BMP ENDIF_1-$-2
+	4298 (0x10ca)	1162
+111	ELSE_1                
+112	  adi BP, R2, #-2   // stoque l'adresse de la variable dans R2
+	4300 (0x10cc)	4ed2
+	4302 (0x10ce)	fffe
+113	LDW R1, #1
+	4304 (0x10d0)	6180
+	4306 (0x10d2)	0001
+114	STW R1 , (R2)
+	4308 (0x10d4)	6122
+115	adi BP, R2, #-4   // stoque l'adresse de la variable dans R2
+	4310 (0x10d6)	4ed2
+	4312 (0x10d8)	fffc
+116	adi BP, R3, #4   // stoque l'adresse de la variable dans R3
+	4314 (0x10da)	4ed3
+	4316 (0x10dc)	0004
+117	LDW R1, (R3)
+	4318 (0x10de)	61a3
+118	STW R1, (R2)
+	4320 (0x10e0)	6122
+119	loop_2           
+120	 adi BP, R2, #-2   // stoque l'adresse de la variable dans R2
+	4322 (0x10e2)	4ed2
+	4324 (0x10e4)	fffe
+121	LDW R1, (R2)
+	4326 (0x10e6)	61a2
+122	adi BP, R3, #6   // stoque l'adresse de la variable dans R3
+	4328 (0x10e8)	4ed3
+	4330 (0x10ea)	0006
+123	LDW R2, (R3)
+	4332 (0x10ec)	62a3
+124	CMP R1, R2
+	4334 (0x10ee)	4f12
+125	BLW 6
+	4336 (0x10f0)	1706
+126	LDW R1, #0
+	4338 (0x10f2)	6180
+	4340 (0x10f4)	0000
+127	BMP 2
+	4342 (0x10f6)	1102
+128	LDW R1, #1
+	4344 (0x10f8)	6180
+	4346 (0x10fa)	0001
+129	LDW R2, #1
+	4348 (0x10fc)	6280
+	4350 (0x10fe)	0001
+130	CMP R1, R2
+	4352 (0x1100)	4f12
+131	BEQ 2
+	4354 (0x1102)	1202
+132	BMP endloop_2-$-2
+	4356 (0x1104)	1128
+133	adi BP, R2, #-4   // stoque l'adresse de la variable dans R2
+	4358 (0x1106)	4ed2
+	4360 (0x1108)	fffc
+134	LDW R1, (R2)
+	4362 (0x110a)	61a2
+135	adi BP, R3, #4   // stoque l'adresse de la variable dans R3
+	4364 (0x110c)	4ed3
+	4366 (0x110e)	0004
+136	LDW R2, (R3)
+	4368 (0x1110)	62a3
+137	MUL R1, R2, R3
+	4370 (0x1112)	b123
+138	adi BP, R2, #-4   // stoque l'adresse de la variable dans R2
+	4372 (0x1114)	4ed2
+	4374 (0x1116)	fffc
+139	STW R3, (R2)
+	4376 (0x1118)	6322
+140	adi BP, R2, #-2   // stoque l'adresse de la variable dans R2
+	4378 (0x111a)	4ed2
+	4380 (0x111c)	fffe
+141	LDW R1, (R2)
+	4382 (0x111e)	61a2
+142	LDW R2, #1
+	4384 (0x1120)	6280
+	4386 (0x1122)	0001
+143	ADD R1, R2, R3
+	4388 (0x1124)	e123
+144	adi BP, R2, #-2   // stoque l'adresse de la variable dans R2
+	4390 (0x1126)	4ed2
+	4392 (0x1128)	fffe
+145	STW R3, (R2)
+	4394 (0x112a)	6322
+146	BMP loop_2-$-2
+	4396 (0x112c)	11b4
+147	endloop_2            
+148	ENDIF_1               
+149	 adi BP, R2, #-4   // stoque l'adresse de la variable dans R2
+	4398 (0x112e)	4ed2
+	4400 (0x1130)	fffc
+150	LDW R0, R2
+	4402 (0x1132)	6092
+151	// fin de la fonction (ipilogue) :
+152	
+153	    // UNLINK 
+154	           LDW SP, BP    // charge SP avec contenu de BP: abandon infos locales
+	4404 (0x1134)	6f9d
+155	           LDW BP, (SP)+ // dipile ancien BP dans BP
+	4406 (0x1136)	6dbf
+156	
+157	           RTS  // retour au programme appelant
+	4408 (0x1138)	0200
+158	
+159	//----------------------------------------------------------------------------------------------------
+160	
+161	 
+162	 factorielle_2
+163	// LINK crie environnement du main pour permettre des variables locales 
+164	// mais sans encore les riserver     
+165	        stw bp, -(sp)
+	4410 (0x113a)	6d4f
+166	        ldw bp, sp
+	4412 (0x113c)	6d9f
+167	
+168	adi sp, sp, #-2   // riserve place pour une variable de taille int
+	4414 (0x113e)	4eff
+	4416 (0x1140)	fffe
+169	LDW R1, #1
+	4418 (0x1142)	6180
+	4420 (0x1144)	0001
+170	STW R1 , (BP)-2
+	4422 (0x1146)	616d
+	4424 (0x1148)	fffe
+171	adi BP, R2, #4   // stoque l'adresse de la variable dans R2
+	4426 (0x114a)	4ed2
+	4428 (0x114c)	0004
+172	LDW R1, (R2)
+	4430 (0x114e)	61a2
+173	LDW R2, #0
+	4432 (0x1150)	6280
+	4434 (0x1152)	0000
+174	CMP R1, R2
+	4436 (0x1154)	4f12
+175	BEQ 6
+	4438 (0x1156)	1206
+176	LDW R1, #0
+	4440 (0x1158)	6180
+	4442 (0x115a)	0000
+177	BMP 2
+	4444 (0x115c)	1102
+178	LDW R1, #1
+	4446 (0x115e)	6180
+	4448 (0x1160)	0001
+179	LDW R2, #1
+	4450 (0x1162)	6280
+	4452 (0x1164)	0001
+180	CMP R1, R2
+	4454 (0x1166)	4f12
+181	BEQ IF_3-$-2
+	4456 (0x1168)	1202
+182	BMP ELSE_3-$-2
+	4458 (0x116a)	1112
+183	IF_3               
+184	  LDW R2, BP
+	4460 (0x116c)	629d
+185	LDW R1, (R2)
+	4462 (0x116e)	61a2
+186	LDW R2, R1
+	4464 (0x1170)	6291
+187	adi R2, R2, #-2   // stoque l'adresse de la variable dans R2
+	4466 (0x1172)	4e22
+	4468 (0x1174)	fffe
+188	LDW R1, #1
+	4470 (0x1176)	6180
+	4472 (0x1178)	0001
+189	STW R1 , (R2)
+	4474 (0x117a)	6122
+190	BMP ENDIF_3-$-2
+	4476 (0x117c)	1168
+191	ELSE_3                
+192	  LDW R2, BP
+	4478 (0x117e)	629d
+193	LDW R1, (R2)
+	4480 (0x1180)	61a2
+194	LDW R2, R1
+	4482 (0x1182)	6291
+195	adi R2, R2, #-2   // stoque l'adresse de la variable dans R2
+	4484 (0x1184)	4e22
+	4486 (0x1186)	fffe
+196	LDW R1, #1
+	4488 (0x1188)	6180
+	4490 (0x118a)	0001
+197	STW R1 , (R2)
+	4492 (0x118c)	6122
+198	loop_4           
+199	 adi BP, R2, #-2   // stoque l'adresse de la variable dans R2
+	4494 (0x118e)	4ed2
+	4496 (0x1190)	fffe
+200	LDW R1, (R2)
+	4498 (0x1192)	61a2
+201	adi BP, R3, #4   // stoque l'adresse de la variable dans R3
+	4500 (0x1194)	4ed3
+	4502 (0x1196)	0004
+202	LDW R2, (R3)
+	4504 (0x1198)	62a3
+203	CMP R1, R2
+	4506 (0x119a)	4f12
+204	BLE 6
+	4508 (0x119c)	1506
+205	LDW R1, #0
+	4510 (0x119e)	6180
+	4512 (0x11a0)	0000
+206	BMP 2
+	4514 (0x11a2)	1102
+207	LDW R1, #1
+	4516 (0x11a4)	6180
+	4518 (0x11a6)	0001
+208	LDW R2, #1
+	4520 (0x11a8)	6280
+	4522 (0x11aa)	0001
+209	CMP R1, R2
+	4524 (0x11ac)	4f12
+210	BEQ 2
+	4526 (0x11ae)	1202
+211	BMP endloop_4-$-2
+	4528 (0x11b0)	1134
+212	LDW R2, BP
+	4530 (0x11b2)	629d
+213	LDW R1, (R2)
+	4532 (0x11b4)	61a2
+214	LDW R2, R1
+	4534 (0x11b6)	6291
+215	adi R2, R2, #-2   // stoque l'adresse de la variable dans R2
+	4536 (0x11b8)	4e22
+	4538 (0x11ba)	fffe
+216	LDW R1, (R2)
+	4540 (0x11bc)	61a2
+217	adi BP, R3, #-2   // stoque l'adresse de la variable dans R3
+	4542 (0x11be)	4ed3
+	4544 (0x11c0)	fffe
+218	LDW R2, (R3)
+	4546 (0x11c2)	62a3
+219	MUL R1, R2, R3
+	4548 (0x11c4)	b123
+220	LDW R2, BP
+	4550 (0x11c6)	629d
+221	LDW R1, (R2)
+	4552 (0x11c8)	61a2
+222	LDW R2, R1
+	4554 (0x11ca)	6291
+223	adi R2, R2, #-2   // stoque l'adresse de la variable dans R2
+	4556 (0x11cc)	4e22
+	4558 (0x11ce)	fffe
+224	STW R3, (R2)
+	4560 (0x11d0)	6322
+225	adi BP, R2, #-2   // stoque l'adresse de la variable dans R2
+	4562 (0x11d2)	4ed2
+	4564 (0x11d4)	fffe
+226	LDW R1, (R2)
+	4566 (0x11d6)	61a2
+227	LDW R2, #1
+	4568 (0x11d8)	6280
+	4570 (0x11da)	0001
+228	ADD R1, R2, R3
+	4572 (0x11dc)	e123
+229	adi BP, R2, #-2   // stoque l'adresse de la variable dans R2
+	4574 (0x11de)	4ed2
+	4576 (0x11e0)	fffe
+230	STW R3, (R2)
+	4578 (0x11e2)	6322
+231	BMP loop_4-$-2
+	4580 (0x11e4)	11a8
+232	endloop_4            
+233	ENDIF_3               
+234	 // fin de la fonction (ipilogue) :
+235	
+236	    // UNLINK 
+237	           LDW SP, BP    // charge SP avec contenu de BP: abandon infos locales
+	4582 (0x11e6)	6f9d
+238	           LDW BP, (SP)+ // dipile ancien BP dans BP
+	4584 (0x11e8)	6dbf
+239	
+240	           RTS  // retour au programme appelant
+	4586 (0x11ea)	0200
+241	
+242	//----------------------------------------------------------------------------------------------------
+243	
+244	// void printAdrs(int i) Affiche un entier en base 16
+245	
+246	printAdrs_ LDQ 8, R1      // R1 = taille donnies locales (ici 8) de fonction appelie
+	4588 (0x11ec)	2108
+247	
+248	     // LINK R1        // crie et lie l'environnement de fonction appelie
+249	           STW BP, -(SP)  // empile le contenu du registre BP
+	4590 (0x11ee)	6d4f
+250	           LDW BP, SP     // charge contenu SP ds BP qui pointe sur sa sauvegarde
+	4592 (0x11f0)	6d9f
+251	           SUB SP, R1, SP // riserve R1 octets sur la pile pour la variable locale z[7] pour stocker la chaine de caractere correspondant ` l'entier
+	4594 (0x11f2)	ff1f
+252	
+253	// itoa(value, text, 16); // appelle itoa avec i = value, p = text, b = 16
+254	
+255	        ldw r0, #16       // charge 16 (pour base hexadicimale) dans r0
+	4596 (0x11f4)	6080
+	4598 (0x11f6)	0010
+256	        stw r0, -(sp)     // empile contenu de r0 (paramhtre b)
+	4600 (0x11f8)	604f
+257	
+258	        adi bp, r0, #-8   // r0 = bp - 8 = adresse du tableau text
+	4602 (0x11fa)	4ed0
+	4604 (0x11fc)	fff8
+259	        stw r0, -(sp)     // empile contenu de r0 (paramhtre p)
+	4606 (0x11fe)	604f
+260	
+261	        ldw r0, (bp)4     // charge r0 avec le parametre i de printi(int i)
+	4608 (0x1200)	60ed
+	4610 (0x1202)	0004
+262	        stw r0, -(sp)     // empile contenu de r0 (paramhtre i) de itoa(i,p,b)
+	4612 (0x1204)	604f
+263	
+264	        jsr @itoa_        // appelle fonction itoa d'adresse itoa_
+	4614 (0x1206)	0a50
+	4616 (0x1208)	1258
+265	
+266	        adi sp, sp, #6    // nettoie la pile des paramhtres 
+	4618 (0x120a)	4eff
+	4620 (0x120c)	0006
+267	                          // de taille totale 6 octets
+268	
+269	// print(text);
+270	
+271	        adi bp, r0, #-8   // r0 = bp - 8 = adresse du tableau text
+	4622 (0x120e)	4ed0
+	4624 (0x1210)	fff8
+272	        stw r0, -(sp)     // empile contenu de r0 (paramhtre p)
+	4626 (0x1212)	604f
+273	        
+274	        jsr @print_       // appelle fonction print d'adresse print_
+	4628 (0x1214)	0a50
+	4630 (0x1216)	12b8
+275	
+276	        adi sp, sp, #2    // nettoie la pile des paramhtres
+	4632 (0x1218)	4eff
+	4634 (0x121a)	0002
+277	                          // de taille totale 2 octets
+278	
+279	// fin de la fonction (ipilogue) :
+280	
+281	    // UNLINK 
+282	           LDW SP, BP    // charge SP avec contenu de BP: abandon infos locales
+	4636 (0x121c)	6f9d
+283	           LDW BP, (SP)+ // dipile ancien BP dans BP
+	4638 (0x121e)	6dbf
+284	
+285	           RTS  // retour au programme appelant
+	4640 (0x1220)	0200
+286	
+287	// void printi(int i) Affiche un entier en base 10
+288	
+289	printi_   LDQ 8, R1      // R1 = taille donnies locales (ici 8) de fonction appelie
+	4642 (0x1222)	2108
+290	
+291	     // LINK R1        // crie et lie l'environnement de fonction appelie
+292	           STW BP, -(SP)  // empile le contenu du registre BP
+	4644 (0x1224)	6d4f
+293	           LDW BP, SP     // charge contenu SP ds BP qui pointe sur sa sauvegarde
+	4646 (0x1226)	6d9f
+294	           SUB SP, R1, SP // riserve R1 octets sur la pile pour la variable locale z[7] pour stocker la chaine de caractere correspondant ` l'entier
+	4648 (0x1228)	ff1f
+295	
+296	// itoa(value, text, 10); // appelle itoa avec i = value, p = text, b = 10
+297	
+298	        ldw r0, #10       // charge 10 (pour base dicimale) dans r0
+	4650 (0x122a)	6080
+	4652 (0x122c)	000a
+299	        stw r0, -(sp)     // empile contenu de r0 (paramhtre b)
+	4654 (0x122e)	604f
+300	
+301	        adi bp, r0, #-8   // r0 = bp - 8 = adresse du tableau text
+	4656 (0x1230)	4ed0
+	4658 (0x1232)	fff8
+302	        stw r0, -(sp)     // empile contenu de r0 (paramhtre p)
+	4660 (0x1234)	604f
+303	
+304	        ldw r0, (bp)4     // charge r0 avec le parametre i de printi(int i)
+	4662 (0x1236)	60ed
+	4664 (0x1238)	0004
+305	        stw r0, -(sp)     // empile contenu de r0 (paramhtre i) de itoa(i,p,b)
+	4666 (0x123a)	604f
+306	
+307	        jsr @itoa_        // appelle fonction itoa d'adresse itoa_
+	4668 (0x123c)	0a50
+	4670 (0x123e)	1258
+308	
+309	        adi sp, sp, #6    // nettoie la pile des paramhtres 
+	4672 (0x1240)	4eff
+	4674 (0x1242)	0006
+310	                          // de taille totale 6 octets
+311	
+312	// print(text);
+313	
+314	        adi bp, r0, #-8   // r0 = bp - 8 = adresse du tableau text
+	4676 (0x1244)	4ed0
+	4678 (0x1246)	fff8
+315	        stw r0, -(sp)     // empile contenu de r0 (paramhtre p)
+	4680 (0x1248)	604f
+316	        
+317	        jsr @print_       // appelle fonction print d'adresse print_
+	4682 (0x124a)	0a50
+	4684 (0x124c)	12b8
+318	
+319	        adi sp, sp, #2    // nettoie la pile des paramhtres
+	4686 (0x124e)	4eff
+	4688 (0x1250)	0002
+320	                          // de taille totale 2 octets
+321	
+322	// fin de la fonction (ipilogue) :
+323	
+324	    // UNLINK 
+325	           LDW SP, BP    // charge SP avec contenu de BP: abandon infos locales
+	4690 (0x1252)	6f9d
+326	           LDW BP, (SP)+ // dipile ancien BP dans BP
+	4692 (0x1254)	6dbf
+327	
+328	           RTS  // retour au programme appelant
+	4694 (0x1256)	0200
+329	
+330	
+331	// FONCTIONS PRi-DiFINIES EN LANAGAGE D'ASSEMBLAGE
+332	
+333	// char *itoa(int i, char *p, int b);
+334	//
+335	// i entier ` convertir
+336	// p pointeur du tampon dij` alloui en mimoire oy copier la channe de caracthres
+337	// b base de numiration utilisie (de 2 ` 36 inclus car il n'y a que 36 chiffres; par exemple: 2, 4, 8, 10, 16)
+338	//
+339	// Convertit un entier en channe de caracthres codie en ASCII
+340	// (cette fonction fait partie de la bibliothhque standard portable C stdlib et est normalement icrite en C).
+341	// Limitation ici: b doit jtre pair.
+342	// Retourne le pointeur sur la channe de caracthre
+343	//
+344	// Ce programme terminera automatiquement la channe de caracthres par NUL;
+345	// le tampon devrait avoir une taille suffisante (par exemple sizeof(int)*8+1 octets pour b=2)
+346	// Si la base = 10 et que l'entier est nigatif la channe de caracthres est pricidie d'un signe moins (-);
+347	// pour toute autre base, la valeur i est considirie non signie.
+348	// Les 36 chiffres utilisables sont dans l'ordre: 0, 1, 2,..., 9, A, B, C, ... , Z .
+349	// Aucune erreur n'est girie.
+350	     
+351	
+352	ITOA_I      equ 4      // offset du paramhtre i
+353	ITOA_P      equ 6      // offset du paramhtre p
+354	ITOA_B      equ 8      // offset du paramhtre b
+355	
+356	ASCII_MINUS equ 45     // code ASCII de -
+357	ASCII_PLUS  equ 43     // code ASCII de +
+358	ASCII_SP    equ 32     // code ASCII d'espace SP
+359	ASCII_0     equ 48     // code ASCII de ziro (les autres chiffres jusqu'` 9 suivent dans l'ordre)
+360	ASCII_A     equ 65     // code ASCII de A (les autres lettres jusqu'` Z suivent dans l'ordre alphabitique)
+361	
+362	// LNK: crie environnement du main pour permettre des variables locales 
+363	// mais sans encore les riserver
+364	itoa_   stw bp, -(sp)
+	4696 (0x1258)	6d4f
+365	        ldw bp, sp
+	4698 (0x125a)	6d9f
+366	
+367	// ricupiration des paramhtres depuis pile vers registres
+368	        ldw r0, (bp)ITOA_I    // r0 = i    
+	4700 (0x125c)	60ed
+	4702 (0x125e)	0004
+369	        ldw r1, (bp)ITOA_B    // r1 = b
+	4704 (0x1260)	61ed
+	4706 (0x1262)	0008
+370	        
+371	// ghre le signe: normalement itoa ghre des int c'est ` dire des entiers signis, 
+372	// mais en fait seulement pour b=10;
+373	// dans ce cas calcule le signe dans r3 et charge r0 avec la valeur absolue de i
+374	        ldq ASCII_SP, r3      // code ASCII de espace (SPace) -> r3
+	4708 (0x1264)	2320
+375	        ldq 10, wr            // 10 -> wr
+	4710 (0x1266)	2e0a
+376	        cmp r1, wr            // charge les indicateurs de b - 10
+	4712 (0x1268)	4f1e
+377	        bne NOSIGN-$-2        // si non igal (donc si b != 10) saute en NOSIGN, sinon calcule signe
+	4714 (0x126a)	130c
+378	        ldq ASCII_PLUS, r3    // charge le code ASCII du signe plus + dans r3
+	4716 (0x126c)	232b
+379	        tst r0                // charge les indicateurs de r0 et donc de i
+	4718 (0x126e)	0c10
+380	        bge POSIT-$-2         // saute en POSIT si i >= 0
+	4720 (0x1270)	1404
+381	        neg r0, r0            // change le signe de r0
+	4722 (0x1272)	4700
+382	        ldq ASCII_MINUS, r3   // charge le code ASCII du signe moins - dans r3
+	4724 (0x1274)	232d
+383	POSIT   NOP                   // r3 = code ASCII de signe: SP pour aucun, - ou +
+	4726 (0x1276)	0000
+384	
+385	
+386	// convertit l'entier i en chiffres et les empile de droite ` gauche
+387	NOSIGN  ldw r2, r0            // r2 <- r0
+	4728 (0x1278)	6290
+388	CNVLOOP ldw r0, r2            // r0 <- r2
+	4730 (0x127a)	6092
+389	   
+390	   // effectue "criativement" la division par b supposi pair (car l'instruction div est hilas signie ...)
+391	   // d=2*d' , D = d * q + r  , D = 2*D'+r" , D' = d' * q + r' => r = 2*r'+r"
+392	   // un bug apparant avec SRL R0, R0 avec R0 = 2 : met CF ` 1 !!
+393	        srl r1, r1            // r1 = b/2
+	4732 (0x127c)	4211
+394	        ani r0, r4, #1        // ANd Immidiate entre r0 et 00...01 vers r4:
+	4734 (0x127e)	4c04
+	4736 (0x1280)	0001
+395	                              // bit n00 de r0 -> r4; r4 = reste" de r0/2
+396	        srl r0, r0            // r0 / 2 -> r0
+	4738 (0x1282)	4200
+397	        div r0, r1, r2        // quotient = r0 / r1 -> r2, reste' = r0 % r1 -> r0
+	4740 (0x1284)	a012
+398	        shl r0, r0            // r0 = 2 * reste'
+	4742 (0x1286)	4600
+399	        add r0, r4, r0        // r0 = reste = 2 * reste' + reste" => r0 = chiffre
+	4744 (0x1288)	e040
+400	        shl r1, r1            // r1 = b
+	4746 (0x128a)	4611
+401	
+402	        adq -10, r0           // chiffre - 10 -> r0 
+	4748 (0x128c)	30f6
+403	        bge LETTER-$-2        // saute en LETTER si chiffre >= 10
+	4750 (0x128e)	1404
+404	        adq 10+ASCII_0, r0    // ajoute 10 => r0 = chiffre, ajoute code ASCII de 0 
+	4752 (0x1290)	303a
+405	                              // => r0 = code ASCII de chiffre
+406	        bmp STKCHR-$-2        // saute en STKCHR 
+	4754 (0x1292)	1102
+407	
+408	LETTER  adq ASCII_A, r0       // r0 = ASCII(A) pour chiffre = 10, ASCII(B) pour 11 ...
+	4756 (0x1294)	3041
+409	                              // ajoute code ASCII de A => r = code ASCII de chiffre
+410	STKCHR  stw r0, -(sp)         // empile code ASCII du chiffre 
+	4758 (0x1296)	604f
+411	                              // (sur un mot complet pour pas disaligner pile)
+412	        tst r2                // charge les indicateurs en fonction du quotient ds r2)
+	4760 (0x1298)	0c12
+413	        bne CNVLOOP-$-2       // boucle si quotient non nul; sinon sort
+	4762 (0x129a)	13de
+414	
+415	// les caracthres sont maintenant empilis : gauche en haut et droit en bas
+416	
+417	// recopie les caracthres dans le tampon dans le bon ordre: de gauche ` droite
+418	        ldw r1, (bp)ITOA_P    // r1 pointe sur le dibut du tampon dij` alloui 
+	4764 (0x129c)	61ed
+	4766 (0x129e)	0006
+419	        stb r3, (r1)+         // copie le signe dans le tampon
+	4768 (0x12a0)	5331
+420	CPYLOOP ldw r0, (sp)+         // dipile code du chiffre gauche (sur un mot) dans r0
+	4770 (0x12a2)	60bf
+421	        stb r0, (r1)+         // copie code du chiffre dans un Byte du tampon de gauche ` droite
+	4772 (0x12a4)	5031
+422	        cmp sp, bp            // compare sp et sa valeur avant empilement des caracthres qui itait bp
+	4774 (0x12a6)	4ffd
+423	        bne CPYLOOP-$-2       // boucle s'il reste au moins un chiffre sur la pile
+	4776 (0x12a8)	13f8
+424	        ldq NUL, r0           // charge le code du caracthre NUL dans r0
+	4778 (0x12aa)	2000
+425	        stb r0, (r1)+         // sauve code NUL pour terminer la channe de caracthres
+	4780 (0x12ac)	5031
+426	
+427	// termine
+428	        ldw r0, (bp)ITOA_P    // retourne le pointeur sur la channe de caracthres
+	4782 (0x12ae)	60ed
+	4784 (0x12b0)	0006
+429	
+430	    // UNLINK: fermeture de l'environnement de la fonction itoa
+431	        ldw sp, bp            // sp <- bp : abandonne infos locales; sp pointe sur ancinne valeur de bp
+	4786 (0x12b2)	6f9d
+432	        ldw bp, (sp)+         // dipile ancienne valeur de bp dans bp; sp pointe sur adresse de retour
+	4788 (0x12b4)	6dbf
+433	
+434	        rts                   // retourne au programme appelant
+	4790 (0x12b6)	0200
+435	
+436	//-----------------------------------------------------------------------------------------------------
+437	
+438	// void print(char* p)     // imprime le texte pointi par paramhtre p
+439	
+440	// pripare l'environnement de la fonction appelie (prologue) :
+441	
+442	print_     LDQ 0, R1      // R1 = taille donnies locales (ici 0) de fonction appelie
+	4792 (0x12b8)	2100
+443	
+444	     // LINK R1        // crie et lie l'environnement de fonction appelie
+445	           STW BP, -(SP)  // empile le contenu du registre BP
+	4794 (0x12ba)	6d4f
+446	           LDW BP, SP     // charge contenu SP ds BP qui pointe sur sa sauvegarde
+	4796 (0x12bc)	6d9f
+447	           SUB SP, R1, SP // riserve R1 octets sur la pile pour la variable locale z
+	4798 (0x12be)	ff1f
+448	
+449	// charge R0 avec le paramhtre p de diplacement 4
+450	           LDW R0, (BP)4  // R0 = M[BP + 4]
+	4800 (0x12c0)	60ed
+	4802 (0x12c2)	0004
+451	
+452	// affiche texte pointi par R0
+453	           TRP #WRITE_EXC // lance trappe n0 WRITE_EXC: affiche texte d'adresse R0
+	4804 (0x12c4)	0b00
+	4806 (0x12c6)	0042
+454	
+455	// fin de la fonction (ipilogue) :
+456	
+457	    // UNLINK 
+458	           LDW SP, BP    // charge SP avec contenu de BP: abandon infos locales
+	4808 (0x12c8)	6f9d
+459	           LDW BP, (SP)+ // dipile ancien BP dans BP
+	4810 (0x12ca)	6dbf
+460	
+461	           RTS  // retour au programme appelant
+	4812 (0x12cc)	0200
+
+
+
+Tables des identificateurs 
+    identificateurs définis :
+	ASCII_0 : 48 (0x30)
+	endloop_2 : 4398 (0x112e)
+	factorielle_2 : 4410 (0x113a)
+	LOAD_ADRS : 4112 (0x1010)
+	NIL : 0 (0x0)
+	CPYLOOP : 4770 (0x12a2)
+	READ_EXC : 65 (0x41)
+	printAdrs_ : 4588 (0x11ec)
+	POSIT : 4726 (0x1276)
+	WR : r14
+	sp : r15
+	STKCHR : 4758 (0x1296)
+	NOSIGN : 4728 (0x1278)
+	ELSE_3 : 4478 (0x117e)
+	printi_ : 4642 (0x1222)
+	ELSE_1 : 4300 (0x10cc)
+	NUL : 0 (0x0)
+	LETTER : 4756 (0x1294)
+	ASCII_SP : 32 (0x20)
+	STACK_ADRS : 4096 (0x1000)
+	SP : r15
+	bp : r13
+	itoa_ : 4696 (0x1258)
+	WRITE_EXC : 66 (0x42)
+	CNVLOOP : 4730 (0x127a)
+	main_ : 4112 (0x1010)
+	BP : r13
+	ASCII_PLUS : 43 (0x2b)
+	ASCII_MINUS : 45 (0x2d)
+	loop_4 : 4494 (0x118e)
+	loop_2 : 4322 (0x10e2)
+	ITOA_P : 6 (0x6)
+	ASCII_A : 65 (0x41)
+	NULL : 0 (0x0)
+	EXIT_EXC : 64 (0x40)
+	print_ : 4792 (0x12b8)
+	ENDIF_3 : 4582 (0x11e6)
+	ITOA_I : 4 (0x4)
+	ENDIF_1 : 4398 (0x112e)
+	IF_3 : 4460 (0x116c)
+	IF_1 : 4298 (0x10ca)
+	ITOA_B : 8 (0x8)
+	wr : r14
+	puissance_1 : 4236 (0x108c)
+	endloop_4 : 4582 (0x11e6)
+
+
+
+Termine ...
+Fichier résultat : test_ASS.iup

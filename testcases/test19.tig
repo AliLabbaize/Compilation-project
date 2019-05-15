@@ -1,0 +1,12 @@
+/* error : second function uses variables local to the first one, undeclared variable */
+let
+
+function do_nothing1(a: int, b: String):int=
+		(0)
+
+
+
+in
+	do_nothing1(0,5, "str2")
+end
+

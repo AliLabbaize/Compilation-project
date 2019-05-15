@@ -1,0 +1,11 @@
+/*if an array or a record variable a is assigned another 
+variable b of the same type, then changes on b will affect a and vice versa.*/
+/* record assignment and how to copy it*/ 
+let
+  type bar = {foo : int}
+  var rec1 := bar{foo = 1}
+  var rec2 := bar{foo = 2}
+in
+ rec1=rec2;
+ rec2.foo = 1
+end

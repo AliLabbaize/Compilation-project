@@ -1,0 +1,142 @@
+\documentclass[11pt]{meetingmins}
+    \usepackage[utf8]{inputenc}   
+    \usepackage[T1]{fontenc}
+    \usepackage{tabularx}
+    \newcolumntype{C}{>{\centering}X}
+    \usepackage{colortbl}
+    
+    %% Optionally, the following text could be set in the file
+    %% department.min in this folder, then add the option 'department'
+    %% in the \documentclass line of this .tex file:
+    %%\setcommittee{Department of Instruction}
+    %%
+    %%\setmembers{
+    %%  \chair{B.~Smart},
+    %%  B.~Brave,
+    %%  D.~Claire,
+    %%  B.~Gone
+    %%}
+    
+    \setcommittee{Projet de
+    compilation : Compte-rendu de réunion 1}
+    
+    
+    \setmembers{
+     Alexandre GIGLEUX, 
+      Ali LABBAIZE , 
+      Guillaume GATTI, 
+      Florian RENOU
+    }
+    
+    \setdate{Octobre 24, 2018}
+    
+    \setpresent{
+     Alexandre GIGLEUX, 
+      Ali LABBAIZE , 
+      Guillaume GATTI, 
+      Florian RENOU
+    }
+    \absent{ Aucun }
+    \begin{document}
+    \maketitle
+    \section{Type de réunion : \textnormal{Réunion de lancement de projet et première répartition des tâches} }
+    
+    \section{Durée : \textnormal{50min} }
+    \section{Lieu : \textnormal{ Salle 1.11} }
+    
+    
+    \section{}
+    \section{Ordre du jour :}
+    \begin{hiddenitems}
+    \item
+    Se familiariser avec le language Tiger à travers la documentation
+    \item
+    Vérifications si la grammaire est LL(1)
+    \item
+    Traduction de la grammaire vers un fichier.g (Antlr) 
+    \item
+    Présentation du GANTT
+    \item
+    \end{hiddenitems}
+    
+    \section{Informations échangées :}
+    \begin{hiddenitems}
+    
+    \item Explication des points de difficultés à propos de la grammaire notommant pour la création de type équivalent à des
+    structures en language C par rapport à la déclaration de var
+    
+    \item
+    Échange des informations récoltées sur le sujet:
+    \begin{itemize}
+        \item \textbf{A.~LABBAIZE : } 
+        \begin{itemize}
+            \item Explication sur le type Record analogie avec les structures en C.
+            \item Présentation du GANTT prévisionnel : Discution + remodification en fct des disponibilités des membres.
+            \item Travail sur la grammaire (Premiers + Suivants)
+        \end{itemize}
+        
+        \item \textbf{F. RENOU : }intérêt de déjà copier la grammaire en .g afin de la vérifier sur Antlr avant les vérifications manuelles.        
+        
+        \item \textbf{A. GIGLEUX : }
+        \begin{itemize}
+            \item Discute à propos du boucle dans la grammaire LL(1): au niveau de lValue. 
+            \item Travail sur la grammaire (Premiers + Suivants)
+        \end{itemize}
+        
+        \item \textbf{G. GATTI : }A réexpliquer pour tout le monde les étapes du TP qu'il a retravaillé chez lui.
+        
+    \end{itemize}
+    
+    
+    \item Travail pour la semaine prochaine : 
+    \begin{itemize}
+        \item Symboles directeurs
+        \item Diagramme de PERT + modification du GANTT
+        \item Essayer de compiler la grammaire.g sur Antlr + modifications si nécessaire
+    \end{itemize}
+    
+    
+    \end{hiddenitems}
+    \section{Décisions : }
+    \begin{itemize}
+        \item
+        Choix de commencer en parallèle la création du fichier.g lié à la grammaire ET étude manuelle de la grammaire(Premiers + Suivants)
+        \item
+        Choix du template pour la rédaction du rapport .
+        \item
+        Mise en place du Git + Création de l'architecture du projet.
+        \item
+        Election du chef de projet : Ali LABBAIZE.
+        \item La grammaire sera en anglais
+        \item Construire un diagramme GANTT/PERT
+        \item Faire une réunion de chantier chaque semaine afin d'éviter l'effet tunnel
+        \end{itemize}
+
+    \section{Todo list :}
+    \begin{table}[h]
+        \centering
+        \begin{tabular}{|p{4cm}|c|c|c|c|}
+            \hline
+            \rowcolor{yellow} Description & Responsable & Délai & Livrable & Validé par
+            \tabularnewline \hline
+            Etat d'art & A.LABBAIZE. & Pour le 30/03/2018 & Fichier LaTex & Toute l'équipe
+            \tabularnewline \hline
+            Se renseigner sur les interfaces graphiques & R. BANEL & Pour le 30/03/2018 & - & Toute l'équipe
+            \tabularnewline \hline
+            Réalisation du GANTT  & AL/PLF & Pour le 30/03/2018 & Diagramme & Toute l'équipe 
+            \tabularnewline
+            \hline  
+        \end{tabular}
+        \caption{Distribution des tâches}
+        \label{tab:my_label}
+    \end{table}
+    
+    \section{Questions/Remarques :}
+    \begin{itemize}
+        \item Est ce qu'on doit faire un état de l'art ?
+    \end{itemize}
+    \section{Date de la prochaine réunion : \textnormal{le 24 Mars 2018} }
+    
+    
+    
+    \end{document}

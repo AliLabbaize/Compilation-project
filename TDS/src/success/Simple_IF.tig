@@ -1,0 +1,10 @@
+/*simple test of the conditional structre if with two conditions*/
+let
+    var a := 1
+    var b := 2
+in
+    if  (b<5) then 
+        print(b)
+    else
+        print(a) 
+end

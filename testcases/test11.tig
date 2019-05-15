@@ -1,0 +1,7 @@
+/* error hi expr is not int, and index variable erroneously assigned to.  */
+let
+ var i := 0
+in
+for i:=10 to " " do 
+	i := i - 1
+end

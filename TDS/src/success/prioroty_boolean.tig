@@ -1,0 +1,13 @@
+/* while structure and priority test of & and |*/
+
+let
+    var a := 1
+    var b := 2
+in
+    while (a>b) | (b<5) & (a=1) do 
+        print(b);
+
+     while ((a>b) | (b<5)) & (a=1) do 
+        print(b)
+
+end

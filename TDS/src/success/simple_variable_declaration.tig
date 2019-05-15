@@ -1,0 +1,10 @@
+/*There are two forms of variable declarations in Tiger: the short one and the long one.*/
+/*In the short form, only the name of the variable and the initial value of the variable are specified*/
+
+let
+  var foo := 1  /* shot one : foo is typed as an integer */
+  
+  type test = {val : int}
+  var bar : test := nil     /* long one */
+in
+end

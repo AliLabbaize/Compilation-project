@@ -1,0 +1,10 @@
+/* error: definition of recursive types is interrupted */
+let
+/* define a tree */
+type a = b
+var l := 0
+type b = int
+
+in
+	
+end

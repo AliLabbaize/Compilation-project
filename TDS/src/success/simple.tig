@@ -1,0 +1,48 @@
+let 
+    var allo: int := 0
+    var allo2 := 12
+    var a := 0
+
+    type  arrtype = array of int
+	var arr1 : arrtype := arrtype [10] of 0
+
+    type bar2 = { b : int}
+    type bar = {foo : bar2, b : int}
+    
+    var rec1 := bar{foo = bar2{ b =3}, b =0}
+    var rec2 := bar{foo = 2}
+
+  function do_nothing1(a: int, b: String):int=
+		(do_nothing2(a+1);0)
+
+   function puissance ( a : int , b : int ) : int =
+    let
+        var i : int := 0
+        var resultat : int := 0
+        function puissance2 ( a : int , b : int ) : int =
+        let
+        
+        var resultat : int := 0
+        in
+        i := 2
+        end
+    
+
+    in
+    
+    end
+
+    function puissance3 ( a : int , b : int ) : int =
+    let
+        var i : int := 0
+        var resultat : int := 0
+    in
+    
+    end
+
+in
+     a := "allo"
+end 
+
+
+

@@ -1,0 +1,82 @@
+let
+  var a := "P"
+  var error :=  0
+  var compteur := 0
+  type boo = {index : int, value : String}
+  var rec1 := boo{index = 2018, value = "Annee : "}
+  var mille := 1000
+ 
+  
+
+
+
+    function year (nb1 : int, nb2 : int, nb3 : int, nb4 : int) : int = 
+      let 
+        var res := 0
+      in 
+        res := nb1*mille + nb2*100 + nb3*10 + nb4; 
+        res
+      end
+
+
+    
+
+
+
+type sarray = array of String
+var  noms := sarray[10] of "dd"
+
+
+in 
+
+  error := -1;
+  print(a);
+
+
+  (if ((3<5)&(5>1)) then 
+      print("rojet ")
+  else
+    printi(error));
+
+  (while (compteur < 6) do(
+    (if (compteur = 1) then
+      (
+        print("Compil ")
+      )
+    );
+        compteur := compteur +1
+    )
+  );
+
+
+
+  print(rec1.value);
+
+  compteur :=0;
+
+ ( for compteur := 0 to 10 do 
+    (
+      (if(compteur = 9) then
+         printi(2018))
+    ) );
+    
+print("/");
+
+printi(year(2,0,1,9));
+
+print(" -----> Auteurs : ");
+noms[0] := "Ali Labbaize ,";
+noms[1] := "Guillaume Gatti ,";
+noms[2] := "Alexandre Gigleux ,";
+noms[3] := "Florian Renou ";
+
+compteur := 0;
+(for compteur := 0 to 4 do
+  print(noms[compteur]));
+
+
+print(" ---------------- ")
+
+
+
+end

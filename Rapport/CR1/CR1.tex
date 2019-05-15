@@ -1,0 +1,144 @@
+\documentclass[11pt]{meetingmins}
+    \usepackage[utf8]{inputenc}   
+    \usepackage[T1]{fontenc}
+    \usepackage{tabularx}
+    \newcolumntype{C}{>{\centering}X}
+    \usepackage{colortbl}
+    
+    %% Optionally, the following text could be set in the file
+    %% department.min in this folder, then add the option 'department'
+    %% in the \documentclass line of this .tex file:
+    %%\setcommittee{Department of Instruction}
+    %%
+    %%\setmembers{
+    %%  \chair{B.~Smart},
+    %%  B.~Brave,
+    %%  D.~Claire,
+    %%  B.~Gone
+    %%}
+    
+    \setcommittee{Projet de
+    compilation : Compte-rendu de réunion 1}
+    
+    
+    \setmembers{
+     Alexandre GIGLEUX, 
+      Ali LABBAIZE , 
+      Guillaume GATTI, 
+      Florian RENOU
+    }
+    
+    \setdate{Octobre 10, 2018}
+    
+    \setpresent{
+     Alexandre GIGLEUX, 
+      Ali LABBAIZE , 
+      Guillaume GATTI, 
+      Florian RENOU
+    }
+    \absent{ Aucun }
+    \begin{document}
+    \maketitle
+    \section{Type de réunion : \textnormal{Réunion de lancement de projet et première répartition des tâches} }
+    
+    \section{Durée : \textnormal{50min} }
+    \section{Lieu : \textnormal{ Salle 1.11} }
+    
+    
+    \section{}
+    \section{Ordre du jour :}
+    \begin{hiddenitems}
+    \item
+    Partage des points de vue et des connaissances récoltées sur le sujet.
+    \item
+    Répartition des tâches en fonction des compétences de chacun.
+    \item
+    Se mettre d'accord sur l'environnement de travail (Code block, éditeur de texte ..etc)
+    \item
+    La mise en évidence des risques temporels. Définir les étapes du projet, afin de mettre en place un GANTT.
+    \item
+    Création du Git
+    \item
+    Election du responsable de projet.
+    \end{hiddenitems}
+    
+    \section{Informations échangées :}
+    \begin{hiddenitems}
+    
+    \item Faire une réunion de chantier chaque semaine afin d'éviter l'effet tunnel.
+    
+    \item
+    Échange des informations récoltées sur le sujet:
+    \begin{itemize}
+        \item \textbf{A.~LABBAIZE : }propose de mettre en place un système de notation qui se base sur 2 approches, une notation par critère (genre du film, acteur, réalisateur,...) et une notation basée sur le choix des utilisateurs. L'idée serait de créer un système se basant sur ces 2 notations.
+        
+        
+    
+        \item \textbf{R. BANEL : }parle de son expérience sur les projets en tant que R1. Trois grands conseils en sont ressortis :
+        \begin{itemize}
+            \item La mise en œuvre des outils de gestion de projet est primordiale
+            \item Les tests sont obligatoires
+            \item Il faut tout expliciter dans le rapport final, même ce qu'on va remplacer ou effacer
+        \end{itemize}
+        
+        
+        \item \textbf{PL. FEULVARCH : }explique que pour gagner en complexité, il serait possible d'utiliser des systèmes de recommandation prédéfinis.
+        
+    \end{itemize}
+    
+    
+    \item Travail pour la semaine prochaine : 
+    \begin{itemize}
+        \item Définir les lots de travail 
+        \item Faire un diagramme de Gantt, puis un diagramme de PERT
+        \item Commencer la verifications de la grammaire
+        \item Prendre en main ANTLR + debut fichier.g
+        \item Relecture des spécifications de la grammaire
+    \end{itemize}
+    
+    
+    \end{hiddenitems}
+    \section{Décisions : }
+    \begin{itemize}
+        \item
+        Choix de réunion hebdomadaire : le mercredi de 14h à 16h .
+        \item
+        Choix du template pour la rédaction du rapport .
+        \item
+        Mise en place du Git + Création de l'architecture du projet.
+        \item
+        Election du chef de projet : Ali LABBAIZE.
+        \item La grammaire sera en anglais
+        \item Construire un diagramme GANTT/PERT
+        \item Faire une réunion de chantier chaque semaine afin d'éviter l'effet tunnel
+        \end{itemize}
+
+        
+    \section{Todo list :}
+    \begin{table}[h]
+        \centering
+        \begin{tabular}{|p{4cm}|c|c|c|c|}
+            \hline
+            \rowcolor{yellow} Description & Responsable & Délai & Livrable & Validé par
+            \tabularnewline \hline
+            Etat d'art & A.LABBAIZE. & Pour le 30/03/2018 & Fichier LaTex & Toute l'équipe
+            \tabularnewline \hline
+            Se renseigner sur les interfaces graphiques & R. BANEL & Pour le 30/03/2018 & - & Toute l'équipe
+            \tabularnewline \hline
+            Réalisation du GANTT  & AL/PLF & Pour le 30/03/2018 & Diagramme & Toute l'équipe 
+            \tabularnewline
+            \hline  
+        \end{tabular}
+        \caption{Distribution des tâches}
+        \label{tab:my_label}
+    \end{table}
+    
+    \section{Questions/Remarques :}
+    \begin{itemize}
+        \item Est ce qu'on doit faire un état de l'art ?
+    \end{itemize}
+    \section{Date de la prochaine réunion : \textnormal{le 24 Mars 2018} }
+    
+    
+    
+    \end{document}
